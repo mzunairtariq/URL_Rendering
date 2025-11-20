@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="UrlButtonGridNS" constructor="UrlButtonGrid" version="0.0.2" display-name-key="UrlButtonGrid" description-key="UrlButtonGrid description" control-type="standard" >
+  <control namespace="UrlButtonGridNS" constructor="UrlButtonGrid" version="2.0.0" display-name-key="UrlButtonGrid" description-key="UrlButtonGrid description" control-type="standard" >
     <external-service-usage enabled="false" />
     
     <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />

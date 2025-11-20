@@ -1,25 +1,26 @@
 import * as React from "react";
 import { PrimaryButton } from '@fluentui/react/lib/Button';
-import { CellRendererOverrides, RendererParams } from "./types";
+import { CellRendererOverrides, GetRendererParams, CellRendererProps } from "./types";
 
 const TARGET_COL = "khurram_url";
 
 export const cellRendererOverrides: CellRendererOverrides = {
 
-    ["Text"]: (props: unknown, rendererParams: RendererParams) => {
+    ["Text"]: (props: CellRendererProps, rendererParams: GetRendererParams) => {
 
+        // 1. Get Column Name (Using Official Types)
         const colName = rendererParams.colDefs?.[rendererParams.columnIndex]?.name;
 
-        // SAFETY CHECK: If no column name, abort
+        // Safety check
         if (!colName) return null;
 
-        // FIX 3: Use 'includes' to handle Subgrid Aliasing (e.g. "a_123_khurram_url")
+        // 2. Check Match (Using includes for aliasing)
         if (colName.includes(TARGET_COL)) {
             
-            // Log the success so we know it worked
-            console.log(`[PCF DEBUG] Match Found! Rendering Button for: ${colName}`);
+            console.log(`[PCF DEBUG] Match Found for column: ${colName}`);
 
-            const urlValue = rendererParams.value as string;
+            // 3. Get Value from 'props' (Official way), not rendererParams
+            const urlValue = props.value as string;
 
             // If value is empty, don't render button
             if (!urlValue) return null;

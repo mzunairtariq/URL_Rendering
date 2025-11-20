@@ -1,12 +1,12 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import { cellRendererOverrides } from "./GridCustomizerResources/GridRenderer";
-import { PAOneGridCustomizer, GridCustomizerFactory } from "./GridCustomizerResources/types";
+import { PAOneGridCustomizer } from "./GridCustomizerResources/types";
 
 export class UrlButtonGrid implements ComponentFramework.ReactControl<IInputs, IOutputs> {
 
     constructor() {
-        // 
+        //
     }
 
     public init(
@@ -14,29 +14,18 @@ export class UrlButtonGrid implements ComponentFramework.ReactControl<IInputs, I
         notifyOutputChanged: () => void,
         state: ComponentFramework.Dictionary
     ): void {
-
-        console.log("--- [PCF DEBUG] Init Started ---");
-
         const eventName = context.parameters.EventName.raw;
-        console.log("--- [PCF DEBUG] EventName received:", eventName);
-
-        // REMOVED the "if (eventName)" check. 
-        // Sometimes this comes in empty initially, but we should try to fire anyway 
-        // or at least log that we are trying.
 
         if (eventName) {
-            console.log("--- [PCF DEBUG] Firing Handshake Event... ---");
-            const overrides: PAOneGridCustomizer = {
-                cellRendererOverrides: cellRendererOverrides
+            // Construct the overrides object using the logic from GridRenderer
+            const paOneGridCustomizer: PAOneGridCustomizer = {
+                cellRendererOverrides
             };
 
-            // Fire the event (Handshake)
-            // We cast factory to our defined interface to satisfy the Linter
-            const factory = context.factory as unknown as GridCustomizerFactory;
-            factory.fireEvent(eventName, overrides);
-            console.log("--- [PCF DEBUG] Handshake Fired! ---");
-        } else {
-            console.error("--- [PCF DEBUG] ERROR: EventName is Missing/Empty! Handshake aborted. ---");
+            // OFFICIAL MICROSOFT HANDSHAKE
+            // We use this specific comment to allow the 'any' cast without linting errors
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            (context as any).factory.fireEvent(eventName, paOneGridCustomizer);
         }
     }
 
@@ -46,6 +35,6 @@ export class UrlButtonGrid implements ComponentFramework.ReactControl<IInputs, I
 
     public getOutputs(): IOutputs { return {}; }
     public destroy(): void {
-        // 
+        //
     }
 }
