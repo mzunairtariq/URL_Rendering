@@ -8,17 +8,21 @@ export const cellRendererOverrides: CellRendererOverrides = {
 
     ["Text"]: (props: unknown, rendererParams: RendererParams) => {
 
-        // LOG EVERY COLUMN (Only do this for debugging, it's noisy!)
         const colName = rendererParams.colDefs?.[rendererParams.columnIndex]?.name;
 
-        // We log only once per column to avoid crashing the browser with 1000 logs
-        // (Just a simple check logic here)
-        if (colName === TARGET_COL) {
-            console.log(`--- [PCF DEBUG] Rendering Match Found for: ${colName} ---`);
-        }
+        // SAFETY CHECK: If no column name, abort
+        if (!colName) return null;
 
-        if (colName === TARGET_COL) {
+        // FIX 3: Use 'includes' to handle Subgrid Aliasing (e.g. "a_123_khurram_url")
+        if (colName.includes(TARGET_COL)) {
+            
+            // Log the success so we know it worked
+            console.log(`[PCF DEBUG] Match Found! Rendering Button for: ${colName}`);
+
             const urlValue = rendererParams.value as string;
+
+            // If value is empty, don't render button
+            if (!urlValue) return null;
 
             return (
                 <PrimaryButton
@@ -31,7 +35,7 @@ export const cellRendererOverrides: CellRendererOverrides = {
                         if (!finalUrl.startsWith("http")) finalUrl = "https://" + finalUrl;
                         window.open(finalUrl, '_blank');
                     }}
-                    styles={{ root: { height: '24px', fontSize: '12px', width: '100%' } }}
+                    styles={{ root: { height: '24px', fontSize: '12px', width: '100%', textAlign: 'left' } }}
                 />
             );
         }
