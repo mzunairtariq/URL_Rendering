@@ -3,7 +3,7 @@
   <control namespace="UrlButtonGridNS" constructor="UrlButtonGrid" version="2.0.0" display-name-key="UrlButtonGrid" description-key="UrlButtonGrid description" control-type="standard" >
     <external-service-usage enabled="false" />
     
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
     
     <property name="EventName" display-name-key="EventName" description-key="EventName" of-type="SingleLine.Text" usage="input" required="true" />
     
